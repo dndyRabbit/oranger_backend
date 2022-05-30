@@ -4,6 +4,6 @@ const absenCtrl = require("../controllers/absenCtrl");
 
 router.post("/petugas/absen", auth, absenCtrl.absen);
 router.get("/petugas/absen/:id", auth, absenCtrl.getAbsenByDate);
-router.patch("/petugas/updateAbsen/:id", auth, absenCtrl.patchAbsen);
+router.patch("/petugas/updateAbsen/:date/:userId", auth, absenCtrl.patchAbsen);
 
 module.exports = router;

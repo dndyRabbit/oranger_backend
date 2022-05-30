@@ -1,39 +1,20 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const ruteSchema = new mongoose.Schema(
   {
-    namaLengkap: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    avatar: {
-      type: String,
-      default:
-        "https://res.cloudinary.com/rabbitdev/image/upload/v1629793810/e5bfbb6aa6914403c97a036bd2dfe0c2_lz6le2.jpg",
-    },
-    namaWilayah: {
-      type: String,
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
-    latlng: {
-      type: Object,
+    role: {
+      type: String,
       required: true,
     },
     wilayahId: {
-      type: String,
-      required: true,
-    },
-    alamatRute: {
-      type: String,
-      required: true,
-    },
-    isAdd: {
-      type: Boolean,
-      default: false,
-    },
-    userId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "wilayah",
       required: true,
     },
   },

@@ -1,11 +1,40 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const absenSchema = new mongoose.Schema(
   {
-    petugasAbsensi: [Object],
-    tanggal: { type: Date, default: Date.now },
-    isUpload: false,
-    isAllAbsen: false,
+    petugasAbsensi: [
+      {
+        userId: {
+          type: Schema.Types.ObjectId,
+          ref: "user",
+          required: true,
+        },
+
+        role: {
+          type: String,
+          required: true,
+        },
+
+        statusAbsen: {
+          type: String,
+          required: true,
+        },
+
+        photo: {
+          type: String,
+        },
+
+        absenIn: {
+          type: String,
+        },
+
+        absenOut: {
+          type: String,
+        },
+      },
+    ],
+    date: { type: Date, default: Date.now },
   },
   {
     timestamps: true,

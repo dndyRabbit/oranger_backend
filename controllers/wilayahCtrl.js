@@ -1,4 +1,7 @@
 const Wilayahs = require("../models/wilayahModel");
+const Roles = require("../models/roleModel");
+const Rutes = require("../models/ruteModel");
+const Users = require("../models/userModel");
 
 const wilayahCtrl = {
   getWilayah: async (req, res) => {
@@ -12,58 +15,84 @@ const wilayahCtrl = {
     }
   },
 
+  getUsersAndRoles: async (req, res) => {
+    try {
+      const users = await Roles.find({ isRuted: false }).populate({
+        path: "userId",
+        select: "fullName avatar",
+      });
+
+      res.json({ users });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getUsersAndRolesAbsensi: async (req, res) => {
+    try {
+      const users = await Roles.find({}).populate({
+        path: "userId",
+        select: "fullName avatar",
+      });
+
+      res.json({ users });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
   postWilayah: async (req, res) => {
     try {
-      const { wilayah, marker } = req.body;
+      const { wilayahAwal, wilayahAkhir, alamat, latitude, longitude } =
+        req.body;
+
+      const isWilayahAlreadyExist = await Wilayahs.findOne({
+        wilayahAwal,
+        wilayahAkhir,
+      });
+
+      if (isWilayahAlreadyExist)
+        return res
+          .status(400)
+          .json({ msg: "Wilayah dengan nama ini sudah ada" });
 
       const newWilayah = new Wilayahs({
-        wilayah,
-        marker,
+        wilayahAwal,
+        wilayahAkhir,
+        alamat,
+        latitude,
+        longitude,
       });
 
       await newWilayah.save();
 
-      res.json({ msg: "Successfully add wilayah!", ...newWilayah._doc });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-
-  updateWilayah: async (req, res) => {
-    try {
-      const id = req.params.id;
-      const { wilayah, marker } = req.body;
-
-      console.log(wilayah, marker);
-
-      const wilayahs = await Wilayahs.findOne({ _id: id });
-
-      await Wilayahs.findOneAndUpdate(
-        { _id: id },
-        {
-          wilayah: wilayahs.wilayah.concat(wilayah),
-          marker: wilayahs.marker.concat(marker),
-        }
-      );
+      const wilayah = await Wilayahs.find();
 
       res.json({
-        msg: "Update wilayah Success!",
-        wilayah: wilayah,
-        marker: marker,
+        msg: "Successfully post wilayah!",
+        wilayah,
       });
-      console.log(wilayahs);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
 
-  deleteWilayah: async (req, res) => {
+  deleteAllWilayah: async (req, res) => {
     try {
-      const id = req.params.id;
+      await Wilayahs.deleteMany({});
 
-      await Wilayahs.findOneAndDelete({ _id: id });
+      res.json({ msg: "Deleted semua wilayah Success!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 
-      res.json({ msg: "Deleted wilayah Success!" });
+  // Get User According to their Wilayah
+  getUsers: async (req, res) => {
+    try {
+      const wilayah = await Wilayahs.find();
+      // if (!wilayah) return res.status(400).json({ msg: "Belum ada Wialyah!" });
+
+      res.json({ wilayah });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

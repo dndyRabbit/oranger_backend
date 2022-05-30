@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    namaLengkap: {
+    fullName: {
       type: String,
       required: true,
       trim: true,
@@ -22,44 +22,38 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/rabbitdev/image/upload/v1629793810/e5bfbb6aa6914403c97a036bd2dfe0c2_lz6le2.jpg",
     },
-    role: { type: String, required: true },
-    pekerjaan: {
+    ktp: {
       type: String,
-      required: true,
     },
-    noKTP: {
+    gender: {
       type: String,
-      required: true,
-      maxlength: 16,
-      minlength: 16,
     },
-    jenisKelamin: {
+    address: {
       type: String,
-      required: true,
     },
-    alamatLengkap: {
+    birthday: {
       type: String,
-      required: true,
     },
-    tanggalLahir: {
+    handphone: {
       type: String,
-      required: true,
     },
-    noHandphone: {
-      type: String,
-      required: true,
-    },
-    kelurahan: {
-      type: String,
-      required: true,
+    isRoled: {
+      type: Boolean,
     },
     isVerified: {
       type: Boolean,
-      default: false,
     },
-    isAdd: {
+    isAdmin: {
       type: Boolean,
-      default: false,
+    },
+    root: {
+      type: Boolean,
+    },
+    position: {
+      type: String,
+    },
+    latLngs: {
+      type: Object,
     },
   },
   {

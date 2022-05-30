@@ -1,9 +1,27 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const wilayahSchema = new mongoose.Schema(
   {
-    wilayah: [Object],
-    marker: [Object],
+    wilayahAwal: {
+      type: String,
+      required: true,
+    },
+    wilayahAkhir: {
+      type: String,
+    },
+    alamat: {
+      type: String,
+      required: true,
+    },
+    latitude: {
+      type: String,
+      default: "none",
+    },
+    longitude: {
+      type: String,
+      default: "none",
+    },
   },
   {
     timestamps: true,

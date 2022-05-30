@@ -1,79 +1,95 @@
 const Rutes = require("../models/ruteModel");
-const Users = require("../models/userModel");
 
 const ruteCtrl = {
-  getRute: async (req, res) => {
+  postRutes: async (req, res) => {
     try {
-      const id = req.params.id;
-      const rute = await Rutes.find({ isAdd: true, wilayahId: id });
-      if (!rute) return res.status(400).json({ msg: "Tidak ada rute" });
+      const { role, userId, wilayahId, roleId } = req.body;
 
-      res.json({ rute });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-
-  getUserIsNotAdded: async (req, res) => {
-    try {
-      const user = await Users.find({ isAdd: false, isVerified: true });
-      if (!user)
-        return res
-          .status(400)
-          .json({ msg: "Tidak ada user yang belum ditambahkan!" });
-
-      res.json({ user });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-
-  postRute: async (req, res) => {
-    try {
-      const {
-        alamatRute,
-        wilayahId,
-        latlng,
-        namaWilayah,
-        avatar,
-        isAdd,
-        namaLengkap,
-        userId,
-      } = req.body;
-
-      const petugas = await Rutes.findOne({ namaLengkap });
-
-      if (petugas)
-        return res
-          .status(400)
-          .json({ msg: "Petugas ini sudah terdaftar di wilayah!" });
-
-      const newRute = new Rutes({
-        alamatRute,
-        wilayahId,
-        latlng,
-        namaWilayah,
-        avatar,
-        isAdd,
-        namaLengkap,
+      const isRuteExist = await Rutes.findOne({
         userId,
       });
 
-      await newRute.save();
+      if (isRuteExist)
+        return res
+          .status(400)
+          .json({ msg: "Petugas sudah terdaftar diwilayah!" });
 
-      res.json({ msg: "Berhasil menambahkan petugas diwilayah ini!" });
+      const newRutes = new Rutes({
+        role,
+        userId,
+        wilayahId,
+        roleId,
+      });
+
+      await newRutes.save();
+
+      res.json({
+        msg: "Successfully post wilayah!",
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getUserRuteByUserId: async (req, res) => {
+    try {
+      const userId = req.params.userId;
+
+      const user = await Rutes.find({ userId })
+        .populate([{ path: "userId", select: "fullName avatar" }])
+        .populate({ path: "wilayahId" });
+
+      if (!user) return res.status(400).json({ msg: "Wilayah ini tidak ada!" });
+
+      res.json({
+        user,
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
 
-  deleteRute: async (req, res) => {
+  getUserRuteAccordingWilayah: async (req, res) => {
     try {
-      const id = req.params.id;
+      const wilayahId = req.params.wilayahId;
 
-      await Rutes.findOneAndDelete({ _id: id });
+      const user = await Rutes.find({ wilayahId })
+        .populate([{ path: "userId", select: "fullName avatar" }])
+        .populate({ path: "wilayahId" });
 
-      res.json({ msg: "Hapus petugas di wilayah ini berhasil!" });
+      if (!user) return res.status(400).json({ msg: "Wilayah ini tidak ada!" });
+
+      res.json({
+        user,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  deleteUserRute: async (req, res) => {
+    try {
+      const ruteId = req.params.ruteId;
+
+      const user = await Rutes.deleteOne({
+        ruteId,
+      });
+
+      if (!user) return res.status(400).json({ msg: "Rute User tidak ada!" });
+
+      res.json({
+        msg: "Delete Rute Petugas berhasil!",
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  deleteAllUserRute: async (req, res) => {
+    try {
+      await Rutes.deleteMany({});
+
+      res.json({
+        msg: "Delete semua rute petugas berhasil!",
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

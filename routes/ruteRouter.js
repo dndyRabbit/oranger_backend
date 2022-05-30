@@ -2,10 +2,15 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 const ruteCtrl = require("../controllers/ruteCtrl");
 
-router.post("/addRute", auth, ruteCtrl.postRute);
-router.get("/getRute/:id", auth, ruteCtrl.getRute);
-router.get("/getUserIsNotAdded", auth, ruteCtrl.getUserIsNotAdded);
+router.post("/postRute", auth, ruteCtrl.postRutes);
+router.get("/getUserRuteByUserId/:userId", auth, ruteCtrl.getUserRuteByUserId);
+router.get(
+  "/getUserRuteAccordingWilayah/:wilayahId",
+  auth,
+  ruteCtrl.getUserRuteAccordingWilayah
+);
 
-router.delete("/deleteRute/:id", auth, ruteCtrl.deleteRute);
+router.delete("/deleteUserRute/:ruteId", auth, ruteCtrl.deleteUserRute);
+router.delete("/deleteAllUserRute", auth, ruteCtrl.deleteAllUserRute);
 
 module.exports = router;

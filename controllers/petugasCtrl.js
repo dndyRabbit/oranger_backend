@@ -3,7 +3,7 @@ const Users = require("../models/userModel");
 const petugasCtrl = {
   allPetugas: async (req, res) => {
     try {
-      const user = await Users.find({ role: "petugas", isVerified: true });
+      const user = await Users.find({ isVerified: true, position: "petugas" });
       if (!user) return res.status(400).json({ msg: "User does not exist." });
 
       res.json({ user });
@@ -11,8 +11,7 @@ const petugasCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
-
-  getAllPetugasIsNotVerified: async (req, res) => {
+  allPetugasIsNotVerified: async (req, res) => {
     try {
       const user = await Users.find({ isVerified: false });
       if (!user) return res.status(400).json({ msg: "User does not exist." });
@@ -22,7 +21,6 @@ const petugasCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
-
   getProfilePetugas: async (req, res) => {
     try {
       const user = await Users.findById({ _id: req.user._id });
@@ -37,20 +35,25 @@ const petugasCtrl = {
 
   updatePetugas: async (req, res) => {
     try {
-      const { namaLengkap, noKTP, noHandphone, alamatLengkap } = req.body;
+      const id = req.params.id;
+
+      const { fullName, ktp, handphone, address, birthday, avatar } = req.body;
 
       await Users.findOneAndUpdate(
-        { _id: req.user._id },
+        { _id: id },
         {
-          namaLengkap,
-          noKTP,
-          noHandphone,
-          alamatLengkap,
+          fullName,
+          ktp,
+          handphone,
+          address,
+          birthday,
+          avatar,
         }
       );
 
-      res.json({ msg: "Update Success!" });
+      res.json({ msg: "Update Profile Success!" });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -85,31 +88,54 @@ const petugasCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
-  // ----------------------------------------
-  updateIsAddPetugas: async (req, res) => {
+
+  // -----------------------------------------------------------
+
+  updateIsRoled: async (req, res) => {
     try {
       const id = req.params.id;
 
-      const { isAdd } = req.body;
-      console.log(id);
+      const { isRoled } = req.body;
+
       await Users.findOneAndUpdate(
         { _id: id },
         {
-          isAdd: isAdd,
+          isRoled,
         }
       );
 
-      res.json({ msg: "Petugas masuk ke wilayah!" });
+      res.json({ msg: "User Roled" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
-  getAllPetugasIsNotAddToRute: async (req, res) => {
+
+  getAllIsNotRoled: async (req, res) => {
     try {
-      const user = await Users.find({ isAdd: false });
-      // if (!user) return res.status(400).json({ msg: "User does not exist." });
+      const user = await Users.find({
+        isVerified: true,
+        position: "petugas",
+        isRoled: false,
+      }).select("fullName avatar isRoled");
+      if (!user) return res.status(400).json({ msg: "User does not exist." });
 
       res.json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  updateAllIsRoled: async (req, res) => {
+    try {
+      const { isRoled } = req.body;
+
+      await Users.updateMany(
+        { isRoled: true },
+        {
+          isRoled: isRoled,
+        }
+      );
+      res.json({ msg: "Success isRoled all false" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
