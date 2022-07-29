@@ -163,7 +163,7 @@ const authCtrl = {
 
       res.cookie("refreshtoken", refresh_token, {
         httpOnly: true,
-        path: "/api/refresh_token",
+        path: `https://oranger-backend.herokuapp.com/api/refresh_token`,
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
       });
 
@@ -183,12 +183,15 @@ const authCtrl = {
 
   logout: async (req, res) => {
     try {
-      res.clearCookie("refreshtoken", { path: "/api/refresh_token" });
+      res.clearCookie("refreshtoken", {
+        path: "https://oranger-backend.herokuapp.com/api/refresh_token",
+      });
       return res.json({ msg: "Logged out!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   generateAccessToken: async (req, res) => {
     try {
       const rf_token = req.cookies.refreshtoken;
