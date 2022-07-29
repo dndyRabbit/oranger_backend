@@ -23,7 +23,7 @@ app.use(
     resave: true,
   })
 );
-app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
+app.use(cors({ credentials: true }));
 
 //Routes
 app.use("/api", require("./routes/authRouter"));
