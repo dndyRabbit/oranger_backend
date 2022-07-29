@@ -82,13 +82,10 @@ const authCtrl = {
         root: false,
       });
 
-      const access_token = createAccessToken({ id: newUser._id });
-
       await newUser.save();
 
       res.json({
         msg: "Register Success!",
-        access_token,
         user: {
           ...newUser._doc,
           password: "",
@@ -142,12 +139,20 @@ const authCtrl = {
     try {
       const { email, password } = req.body;
 
-      const user = await Users.findOne({ email, position: "admin" });
+      const user = await Users.findOne({
+        email,
+        position: "admin",
+      });
 
       if (!user)
         return res
           .status(400)
           .json({ msg: "Email tersebut tidak ada, silahkan hubungi Admin." });
+
+      if (user.isAdmin == false)
+        return res.status(400).json({
+          msg: "Akun tersebut belum ter-verified, silahkan hubungi Kepala admin.",
+        });
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch)

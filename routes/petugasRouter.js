@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const auth = require("../middleware/auth");
 const petugasCtrl = require("../controllers/petugasCtrl");
-const locationCtrl = require("../controllers/locationCtrl");
 
 router.get(
   "/allPetugasIsNotVerified",
@@ -22,12 +21,5 @@ router.patch(
 router.patch("/updateIsRoled/:id", auth, petugasCtrl.updateIsRoled);
 router.get("/getAllIsNotRoled", auth, petugasCtrl.getAllIsNotRoled);
 router.patch("/updateAllIsRoled", auth, petugasCtrl.updateAllIsRoled);
-
-//-----------UPDATE USER LOCATION--------------
-router.patch(
-  "/updateUserLatLngs/:userId",
-  auth,
-  locationCtrl.updateUserLatLngs
-);
 
 module.exports = router;

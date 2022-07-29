@@ -1,11 +1,11 @@
-const Tests = require("../models/testModel");
+const Location = require("../models/locationModel");
 
 const testCtrl = {
   getTest: async (req, res) => {
     try {
-      const data = await Tests.find({});
+      const data = await Location.find({});
 
-      res.json({ data });
+      res.json({ msg: "Berhasil Mengambil data", data });
     } catch (err) {
       return res.status(500).json({ err: err.message });
     }
@@ -14,7 +14,7 @@ const testCtrl = {
     try {
       const { testData } = req.body;
 
-      const testingData = new Tests({
+      const testingData = new Location({
         testData: testData,
       });
 
@@ -35,7 +35,7 @@ const testCtrl = {
 
       const id = req.params.id;
 
-      await Tests.findOneAndUpdate(
+      await Location.findOneAndUpdate(
         { _id: id },
         {
           testData: test,

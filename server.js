@@ -22,7 +22,7 @@ app.use("/api", require("./routes/roleRouter"));
 app.use("/api", require("./routes/ruteRouter"));
 app.use("/api", require("./routes/reportRouter"));
 app.use("/api", require("./routes/permissionRouter"));
-app.use("/api", require("./routes/testRouter"));
+app.use("/api", require("./routes/locationRouter"));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(
