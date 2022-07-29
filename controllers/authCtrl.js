@@ -1,5 +1,5 @@
 const Users = require("../models/userModel");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const authCtrl = {
@@ -25,7 +25,7 @@ const authCtrl = {
           .status(400)
           .json({ msg: "Password must be at least 6 characters." });
 
-      const passwordHash = await bcrypt.hash(password, 12);
+      const passwordHash = await bcryptjs.hash(password, 12);
 
       const newUser = new Users({
         fullName,
@@ -71,7 +71,7 @@ const authCtrl = {
           .status(400)
           .json({ msg: "Password must be at least 6 characters." });
 
-      const passwordHash = await bcrypt.hash(password, 12);
+      const passwordHash = await bcryptjs.hash(password, 12);
 
       const newUser = new Users({
         fullName,
@@ -108,7 +108,7 @@ const authCtrl = {
           .status(400)
           .json({ msg: "Email tersebut tidak ada, silahkan hubungi Admin." });
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcryptjs.compare(password, user.password);
       if (!isMatch)
         return res.status(400).json({ msg: "Password tidak benar." });
 
@@ -154,7 +154,7 @@ const authCtrl = {
           msg: "Akun tersebut belum ter-verified, silahkan hubungi Kepala admin.",
         });
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcryptjs.compare(password, user.password);
       if (!isMatch)
         return res.status(400).json({ msg: "Password tidak benar." });
 

@@ -11,7 +11,7 @@
   "author": "dendy",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "bson": "^4.6.1",
     "concurrently": "^6.5.1",
     "cookie-parser": "^1.4.6",
