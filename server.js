@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const session = require("express-session");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
@@ -9,8 +10,20 @@ const path = require("path");
 
 const app = express();
 app.use(express.json());
+app.set("trust proxy", 1);
+app.use(
+  session({
+    secret:
+      process.env.REFRESH_TOKEN_SECRET || "yourrefxzCzczvdvdvreshtokensecret",
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "none", // must be 'none' to enable cross-site delivery
+      secure: true, // must be true if sameSite='none'
+    },
+    resave: true,
+  })
+);
 app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
-app.use(cookieParser());
 
 //Routes
 app.use("/api", require("./routes/authRouter"));
