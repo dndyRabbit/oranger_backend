@@ -13,18 +13,18 @@ app.use(express.json());
 
 app.set("trust proxy", 1);
 app.use(cookieParser());
-// app.use(
-//   session({
-//     secret:
-//       process.env.REFRESH_TOKEN_SECRET || "yourrefxzCzczvdvdvreshtokensecret",
-//     saveUninitialized: false,
-//     cookie: {
-//       sameSite: "none", // must be 'none' to enable cross-site delivery
-//       secure: true, // must be true if sameSite='none'
-//     },
-//     resave: false,
-//   })
-// );
+app.use(
+  session({
+    secret:
+      process.env.REFRESH_TOKEN_SECRET || "yourrefxzCzczvdvdvreshtokensecret",
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "none", // must be 'none' to enable cross-site delivery
+      secure: true, // must be true if sameSite='none'
+    },
+    resave: false,
+  })
+);
 app.use(
   cors({
     credentials: true,
