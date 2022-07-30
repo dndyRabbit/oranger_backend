@@ -10,7 +10,9 @@ const path = require("path");
 
 const app = express();
 app.use(express.json());
+
 app.set("trust proxy", 1);
+app.use(cookieParser());
 app.use(
   session({
     secret:
@@ -20,10 +22,10 @@ app.use(
       sameSite: "none", // must be 'none' to enable cross-site delivery
       secure: true, // must be true if sameSite='none'
     },
-    resave: true,
+    resave: false,
   })
 );
-app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
+app.use(cors());
 
 //Routes
 app.use("/api", require("./routes/authRouter"));

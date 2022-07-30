@@ -162,8 +162,8 @@ const authCtrl = {
       const refresh_token = createRefreshToken({ id: user._id });
 
       res.cookie("refreshtoken", refresh_token, {
-        httpOnly: false,
-        path: `/api/refresh_token`,
+        httpOnly: true,
+        path: "/api/refresh_token",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
       });
 
@@ -192,6 +192,7 @@ const authCtrl = {
 
   generateAccessToken: async (req, res) => {
     try {
+      console.log(req?.cookies);
       const rf_token = req.cookies.refreshtoken;
       if (!rf_token) return res.status(433).json({ msg: "Please login now." });
 
