@@ -33,6 +33,7 @@ const permissionCtrl = {
       });
 
       await newPermission.save();
+      console.log(...newPermission._doc);
 
       res.json({
         msg: "Successfully post wilayah!",

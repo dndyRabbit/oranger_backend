@@ -24,6 +24,9 @@ const absenSchema = new mongoose.Schema(
         photo: {
           type: String,
         },
+        photo2: {
+          type: String,
+        },
 
         absenIn: {
           type: String,

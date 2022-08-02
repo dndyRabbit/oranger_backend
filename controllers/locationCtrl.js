@@ -1,13 +1,17 @@
 const Location = require("../models/locationModel");
+const Rutes = require("../models/ruteModel");
 
 const locationCtrl = {
   getLocationUser: async (req, res) => {
     try {
-      const locationData = await Location.find({}).populate([
-        { path: "userId", select: "fullName avatar gender position" },
-      ]);
+      const param = req.params;
+      console.log(param.id);
 
-      res.json({ msg: "Berhasil Mengambil data", locationData });
+      const UserRute = await Rutes.findOne({ userId: param.id })
+        .populate([{ path: "userId", select: "fullName  gender position" }])
+        .populate([{ path: "wilayahId" }]);
+
+      res.json({ msg: "Berhasil Mengambil data", data: UserRute });
     } catch (err) {
       return res.status(500).json({ err: err.message });
     }
@@ -21,6 +25,7 @@ const locationCtrl = {
         userId: body.userId,
         latLngs: body.latLngs,
       });
+      console.log(body);
 
       const locationData = await Location.findOne({ userId: body.userId });
 

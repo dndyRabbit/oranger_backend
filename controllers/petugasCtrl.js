@@ -39,7 +39,7 @@ const petugasCtrl = {
 
       const { fullName, ktp, handphone, address, birthday, avatar } = req.body;
 
-      await Users.findOneAndUpdate(
+      await Users.findByIdAndUpdate(
         { _id: id },
         {
           fullName,

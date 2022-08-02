@@ -34,14 +34,16 @@ const ruteCtrl = {
     try {
       const userId = req.params.userId;
 
-      const user = await Rutes.find({ userId })
+      const userLocation = await Rutes.findOne({ userId })
         .populate([{ path: "userId", select: "fullName avatar" }])
         .populate({ path: "wilayahId" });
 
-      if (!user) return res.status(400).json({ msg: "Wilayah ini tidak ada!" });
+      if (!userLocation)
+        return res.status(400).json({ msg: "Wilayah ini tidak ada!" });
 
       res.json({
-        user,
+        msg: "Get data berhasil.",
+        data: userLocation,
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });

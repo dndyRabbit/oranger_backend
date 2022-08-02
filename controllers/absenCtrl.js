@@ -30,7 +30,7 @@ const absenCtrl = {
 
   patchAbsen: async (req, res) => {
     try {
-      const { absenIn, absenOut, photo, statusAbsen } = req.body;
+      const { absenIn, absenOut, photo, statusAbsen, photo2 } = req.body;
       const { date, userId } = req.params;
 
       const user = await Absens.findOneAndUpdate(
@@ -38,6 +38,7 @@ const absenCtrl = {
         {
           $set: {
             "petugasAbsensi.$[elem].photo": photo,
+            "petugasAbsensi.$[elem].photo2": photo2,
             "petugasAbsensi.$[elem].absenIn": absenIn,
             "petugasAbsensi.$[elem].absenOut": absenOut,
             "petugasAbsensi.$[elem].statusAbsen": statusAbsen,
