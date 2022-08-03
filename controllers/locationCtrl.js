@@ -3,7 +3,10 @@ const Location = require("../models/locationModel");
 const locationCtrl = {
   getLocationUser: async (req, res) => {
     try {
-      const UserRute = await Location.find();
+      const UserRute = await Location.find().populate({
+        path: "userId",
+        select: "fullName avatar gender birthday",
+      });
 
       res.json({ msg: "Berhasil Mengambil lokasi user.", data: UserRute });
     } catch (err) {
