@@ -25,7 +25,7 @@ const permissionCtrl = {
         role,
         userId,
         type,
-        evidence: evidence ? evidence : "",
+        evidence,
         description,
         date,
         startDate,
@@ -33,12 +33,11 @@ const permissionCtrl = {
       });
 
       await newPermission.save();
-      console.log(...newPermission._doc);
 
       res.json({
         msg: "Successfully post wilayah!",
         permission: {
-          ...newPermission._doc,
+          newPermission,
         },
       });
     } catch (err) {

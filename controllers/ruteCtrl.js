@@ -73,7 +73,7 @@ const ruteCtrl = {
       const ruteId = req.params.ruteId;
 
       const user = await Rutes.deleteOne({
-        ruteId,
+        _id: ruteId,
       });
 
       if (!user) return res.status(400).json({ msg: "Rute User tidak ada!" });

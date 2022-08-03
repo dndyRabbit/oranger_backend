@@ -1,17 +1,11 @@
 const Location = require("../models/locationModel");
-const Rutes = require("../models/ruteModel");
 
 const locationCtrl = {
   getLocationUser: async (req, res) => {
     try {
-      const param = req.params;
-      console.log(param.id);
+      const UserRute = await Location.find();
 
-      const UserRute = await Rutes.findOne({ userId: param.id })
-        .populate([{ path: "userId", select: "fullName  gender position" }])
-        .populate([{ path: "wilayahId" }]);
-
-      res.json({ msg: "Berhasil Mengambil data", data: UserRute });
+      res.json({ msg: "Berhasil Mengambil lokasi user.", data: UserRute });
     } catch (err) {
       return res.status(500).json({ err: err.message });
     }
