@@ -161,12 +161,6 @@ const authCtrl = {
       const access_token = createAccessToken({ id: user._id });
       const refresh_token = createRefreshToken({ id: user._id });
 
-      res.cookie("refreshtoken", refresh_token, {
-        httpOnly: true,
-        path: "/api/refresh_token",
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
-      });
-
       res.json({
         msg: "Login Success!",
         access_token,
@@ -192,8 +186,7 @@ const authCtrl = {
 
   generateAccessToken: async (req, res) => {
     try {
-      console.log(req?.cookies);
-      const rf_token = req.cookies.refreshtoken;
+      const { rf_token } = req.body;
       if (!rf_token) return res.status(433).json({ msg: "Please login now." });
 
       jwt.verify(

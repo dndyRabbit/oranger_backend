@@ -9,6 +9,7 @@ const wilayahSchema = new mongoose.Schema(
     },
     wilayahAkhir: {
       type: String,
+      required: true,
     },
     alamat: {
       type: String,
