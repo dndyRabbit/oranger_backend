@@ -22,13 +22,12 @@ app.use(
   })
 );
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: ["https://orangeradministration.netlify.app"],
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ["https://orangeradministration.netlify.app"],
+  })
+);
 
 //Routes
 app.use("/api", require("./routes/authRouter"));
