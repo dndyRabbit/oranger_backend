@@ -11,7 +11,8 @@ const reportCtrl = {
         after,
         description,
         date,
-        wilayah,
+        rtrw,
+        alamat,
       } = req.body;
       const report = await Reports.findOne({ userId, date: date });
 
@@ -27,8 +28,9 @@ const reportCtrl = {
         progress,
         after,
         description,
-        wilayah,
         date,
+        rtrw,
+        alamat,
       });
 
       await newReport.save();

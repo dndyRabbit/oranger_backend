@@ -3,10 +3,6 @@ const { Schema } = mongoose;
 
 const reportSchema = new mongoose.Schema(
   {
-    wilayah: {
-      type: Object,
-      required: true,
-    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "user",
@@ -26,6 +22,12 @@ const reportSchema = new mongoose.Schema(
       type: String,
     },
     description: {
+      type: String,
+    },
+    rtrw: {
+      type: String,
+    },
+    alamat: {
       type: String,
     },
     date: {
