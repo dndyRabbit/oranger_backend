@@ -3,10 +3,6 @@ const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const http = require("http");
-const cookieParser = require("cookie-parser");
-// const { ExpressPeerServer } = require('peer')
-const path = require("path");
 
 const app = express();
 app.use(express.json());
